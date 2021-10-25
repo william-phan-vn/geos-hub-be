@@ -16,11 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from services import views
+from customer_management.views import customer_view
+from service_management.views import service_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('login/', views.customer_login, name='user_login'),
-    path('services/', views.all_services, name='all_services'),
-    # path('services/<service_id>', views.all_services, name='all_services'),
+    path('login/', customer_view.customer_login, name='user_login'),
+    path('services/', service_view.get_all_services, name='all_services'),
 ]

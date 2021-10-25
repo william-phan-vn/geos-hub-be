@@ -1,9 +1,9 @@
 from django.contrib import admin
-from services.models import Service, OsPlatform, ServicePrice
+from service_management.models import Service, OsPlatform, ServicePrice
 
 
 class ServiceAdmin(admin.ModelAdmin):
-    readonly_fields = ('created_time',)
+    readonly_fields = ('created_time', 'updated_time')
 
 
 admin.site.register(ServicePrice, ServiceAdmin)
