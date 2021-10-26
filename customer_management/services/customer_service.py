@@ -2,7 +2,8 @@ import json
 
 from django.http import HttpResponse
 from http import HTTPStatus
-from customer_management.repositories.customer_repository import CustomerRepository
+from customer_management.repositories.customer_repository \
+    import CustomerRepository
 
 
 class CustomerService:
@@ -27,11 +28,13 @@ class CustomerService:
                             'description': service.service.service.description
                         }
                         paid_services.append(service_details)
-                        return HttpResponse(json.dumps(paid_services), content_type='application/json')
+                    return HttpResponse(json.dumps(paid_services),
+                                            content_type='application/json')
                 else:
                     return HttpResponse(status=HTTPStatus.FORBIDDEN)
             else:
                 return HttpResponse(status=HTTPStatus.NOT_FOUND)
         except Exception as ex:
             response = ex.__str__()
-            return HttpResponse(json.dumps(response), status=HTTPStatus.INTERNAL_SERVER_ERROR)
+            return HttpResponse(json.dumps(response),
+                                status=HTTPStatus.INTERNAL_SERVER_ERROR)

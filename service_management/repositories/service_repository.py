@@ -9,9 +9,12 @@ class ServiceRepository:
         pass
 
     def get_services(self, search: SearchDTO):
-        q = Q(**{"%s__contains" % search.search_by: search.search_value})
+        if search.search_by is not None:
+            q = Q(**{"%s__contains" % search.search_by: search.search_value})
+            query_set = ServicePrice.objects.filter(q).order_by(search.sort_by)[:search.page_size]
+        else:
+            query_set = ServicePrice.objects.all().order_by(search.sort_by)[:search.page_size]
 
-        query_set = ServicePrice.objects.filter(q).order_by(search.sort_by)[:search.page_size]
         if query_set is not None:
             services = []
             for query in query_set:

@@ -1,27 +1,31 @@
 ## Code Structure
 ```buildoutcfg
 .
-├── README.md
-├── manage.py
 |
 ├── geos_hub_be                 # Main Django application
 │   ├── settings.py
 │   └── urls.py
 |
-├── customer                    # Application for customer management 
+├── service_management                      # Application for Geo's Hub services
+│   ├── views                           # To handle client request
+│   ├── serializers                     # To verify request data
+│   ├── dtos                            # Standarize input data
+│   ├── services                        # Service layer
+│   ├── repositories                    # DB layer
 │   ├── migrations
-│   ├── models.py
-│   └── views.py
+│   └── models.py
 |
-├── services                    # Application for service management
+├── customer_management                     # Application for Geo's Hub customer
+│   ├── views
 │   ├── migrations
-│   ├── models.py
-│   └── views.py
+│   └── models.py
 |
-├── tests
+├── tests                                   # Unit Test
 |
 ├── db.sqlite3                  # Testing databse
+├── README.md
 ├── documents
+├── manage.py
 ├── requirements.txt            # Required package for project
 └── venv                        # Virtual environment
 ```
@@ -33,6 +37,10 @@
 
 ### Component Diagram
 ![HDL.png](documents/HDL.png)
+
+### Sequence Diagram
+- Get Service Flow 
+![get_services_flow](documents/get_services_flow.png)
 
 ## Local Setup
 ### Installations
@@ -58,33 +66,28 @@ python manage.py migrate
 ### Running
 - Run the service locally
 ```buildoutcfg
-python manage.py runserver localhost:<custom_port>
+python manage.py runserver localhost:8001
 ```
 
 ### Testing
+Run Unit Test and Coverage
 ```buildoutcfg
-pytest --cov=service_management tests/
+pytest --cov=service_management tests/ --cov-fail-under=90
+```
+
+View the coverage details
+```buildoutcfg
 coverage html
 ```
 
+Check linting
+```buildoutcfg
+flake8 --ignore E501 tests/ service_management/ customer_management/
+
+```
+
 ### CURL test
-- Get all services
+- Search and sort service by name/price/os_platform/description with page_size
 ```buildoutcfg
-
-```
-- Research services
-```buildoutcfg
-
-```
-- Filter services
-```buildoutcfg
-
-```
-- Sort services
-```buildoutcfg
-
-```
-- Login/Get paid services
-```buildoutcfg
-
+curl --location --request GET 'http://localhost:8001/services?search_by=os_platform&search_value=o&sort_by=os_platform&page_size=3'
 ```
